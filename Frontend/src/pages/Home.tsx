@@ -1,11 +1,40 @@
-import { Pencil, Trash } from "lucide-react"
-
+import { Task } from "../components/Task"
+import type { TaskProps } from "../components/Task"
+import { CATEGORY_TYPES } from "../types/categoryTypes"
 export const Home = () => {
+    const tasks: TaskProps[] = [
+        {
+            name: "Comprar ingredientes para la cena",
+            category: CATEGORY_TYPES.FOOD,
+            isDone: false,
+        },
+        {
+            name: "Revisar capitulo 4 de algoritmos",
+            category: CATEGORY_TYPES.STUDY,
+            isDone: false,
+        },
+        {
+            name: "Enviar reporte mensual de métricas",
+            category: CATEGORY_TYPES.WORK,
+            isDone: false,
+        },
+        {
+            name: "Preparar almuerzo saludable",
+            category: CATEGORY_TYPES.FOOD,
+            isDone: true,
+        },
+        {
+            name: "Lectura 30 minutos de arquitectura",
+            category: CATEGORY_TYPES.STUDY,
+            isDone: true,
+        },
 
+
+    ]
 
     return (
-        <div className="w-full flex items-center  flex-col    bg-gray-100 h-screen">
-            <div className="w-5xl  flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white">
+        <div className="w-full flex items-center  flex-col    bg-gray-100 h-screen relative">
+            <div className="w-5xl  flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white ">
                 <div className=" w-full flex items-center justify-between mb-5 border-b p-5 border-gray-200  font-geist font-bold">
                     <div className="w-2/3 flex gap-5 items-center">
                         <div className="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-sm">
@@ -89,28 +118,21 @@ export const Home = () => {
                 </div>
 
                 <div className="w-full font-geist">
-                    <div className="flex w-full justify-between gap-5 p-5 items-center relative border-b border-gray-200 ">
 
-                        <div className="flex w-5 h-5 rounded-md border justify-center  items-center   border-gray-400 overflow-hidden ">
-                            <input type="checkbox" className="w-[21px] h-[21px] accent-gray-800 cursor-pointer  checked:appearance-auto shrink-0  appearance-none" />
-                        </div>
-                        <div className="items-center flex-1 text-xl font-semibold flex gap-5">
-                            Nombre de la tarea
-                            <div className="border border-yellow-200 text-orange-700 text-sm p-1 px-2 bg-yellow-50/50  rounded-lg">
-                                <span>Comida</span>
-                            </div>
-                        </div>
-                        <div className="flex gap-5 text-gray-400">
-                            <div className="hover:text-black cursor-pointer">
-                                <Pencil size={20} />
-                            </div>
-                            <div className="hover:text-black cursor-pointer">
-                                <Trash size={20} />
-                            </div>
-                        </div>
-                    </div>
+                    {tasks.map(task =>
+                        (<Task key={task.name} name={task.name} isDone={task.isDone} category={task.category} />)
+                    )}
 
                 </div>
+
+                <footer className="font-jet flex justify-between pt-10 text-gray-400">
+                    <span>
+                        Presiona Enter para agregar
+                    </span>
+                    <span>
+                        MVP Hackathon v1.0
+                    </span>
+                </footer>
 
             </div>
         </div >
