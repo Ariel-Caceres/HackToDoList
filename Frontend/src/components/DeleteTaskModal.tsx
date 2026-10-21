@@ -11,13 +11,13 @@ export const DeleteTaskModal = ({ name, cancelDelete }: DeleteTaskModalProps) =>
                 <span className="w-full">.</span>
             </div>
 
-            <div className="brightness-100 absolute top-1/2 left-1/2 border-gray-50 rounded-2xl -translate-y-1/2 -translate-x-1/2 bg-white p-5 border  flex flex-row gap-5 w-md">
+            <div className="brightness-100 absolute top-1/2 left-1/2 border-gray-50 rounded-2xl -translate-y-1/2 -translate-x-1/2 bg-white p-5 border  flex flex-row gap-5 w-lg">
                 <div className="rounded-4xl h-fit p-3 bg-red-50 text-red-600 ">
                     <Trash size={22} />
                 </div>
                 <div className="">
                     <div className="pb-3">
-                        <span className="font-geist font-semibold ">
+                        <span className="font-geist font-semibold text-xl ">
                             ¿Eliminar tarea?
                         </span>
                     </div>
