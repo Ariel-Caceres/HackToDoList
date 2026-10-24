@@ -7,7 +7,7 @@ interface DeleteTaskModalProps {
 export const DeleteTaskModal = ({ name, cancelDelete }: DeleteTaskModalProps) => {
     return (
         <div className="">
-            <div className=" backdrop-blur-xs  w-screen h-screen absolute bg-gray-500/60 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+            <div className=" backdrop-blur-xs  w-full h-full absolute bg-gray-500/60 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
                 <span className="w-full">.</span>
             </div>
 

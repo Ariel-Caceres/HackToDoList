@@ -9,7 +9,7 @@ export const EditTaskModal = ({ closeModal }: EditTaskModalProps) => {
 
 
     return (
-        <div className="w-screen h-screen absolute backdrop-blur-xs bg-gray-500/60 top-0 left-0 flex justify-center items-center">
+        <div className="w-full h-full absolute backdrop-blur-xs bg-gray-500/60 top-0 left-0 flex justify-center items-center">
             <div className="flex top-1/2 left-1/2 -translate-x w-lg bg-white rounded-2xl flex-col p-8">
                 <div className="flex gap-3 justify-between w-full  items-center pb-8">
                     <ListCheck size={18} />

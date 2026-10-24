@@ -33,7 +33,7 @@ export const Home = () => {
     ]
 
     return (
-        <div className="w-full flex items-center  flex-col    bg-gray-100 h-screen relative">
+        <div className="w-full flex items-center  flex-col    bg-gray-100 h-full relative">
             <div className="w-5xl  flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white ">
                 <div className=" w-full flex items-center justify-between mb-5 border-b p-5 border-gray-200  font-geist font-bold">
                     <div className="w-2/3 flex gap-5 items-center">
