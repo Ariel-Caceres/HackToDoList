@@ -1,6 +1,7 @@
 import { Task } from "../components/Task"
 import type { TaskProps } from "../components/Task"
 import { CATEGORY_TYPES } from "../types/categoryTypes"
+import { useGetCategories } from "../hooks/useGetCategories"
 export const Home = () => {
     const tasks: TaskProps[] = [
         {
@@ -31,7 +32,9 @@ export const Home = () => {
 
 
     ]
+    const { categories, loading } = useGetCategories()
 
+    if (loading == true) return null
     return (
         <div className="w-full flex items-center  flex-col    bg-gray-100 h-full relative">
             <div className="w-5xl  flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white ">
@@ -58,9 +61,9 @@ export const Home = () => {
                     <div className="flex gap-3">
 
                         <select name="" id="" className="border border-gray-200 bg-white cursor-pointer outline-0 rounded-xl p-3">
-                            <option value="">Trabajo</option>
-                            <option value="">Estudio</option>
-                            <option value="">Comida</option>
+                            {categories.map((category =>
+                                <option key={category.id} value="">{category.name}</option>
+                            ))}
                         </select>
                         <button className="bg-black py-3 px-5 rounded-xl text-white cursor-pointer flex gap-2 items-center">
                             <span className="text-2xl">
@@ -102,18 +105,16 @@ export const Home = () => {
                         </button>
                     </div>
                     <div className="w-2/5 flex justify-between font-semibold">
-                        <span className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
-                            Todas
-                        </span>
-                        <span className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
-                            Trabajo
-                        </span>
-                        <span className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
-                            Estudio
-                        </span><span className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
-                            Comida
-                        </span>
 
+                        <span className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
+                            Todos
+                        </span>
+                        {categories.map((c) => (
+                            <span key={c.id} className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
+                                {c.name}
+                            </span>
+
+                        ))}
                     </div>
                 </div>
 
