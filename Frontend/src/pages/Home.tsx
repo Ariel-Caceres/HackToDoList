@@ -2,6 +2,9 @@ import { Task } from "../components/Task"
 import type { TaskProps } from "../components/Task"
 import { CATEGORY_TYPES } from "../types/categoryTypes"
 import { useGetCategories } from "../hooks/useGetCategories"
+import { useState } from "react"
+import type { TaskEntity } from "../entities/task.entity"
+import { useCreateTask } from "../hooks/useCreateTasks"
 export const Home = () => {
     const tasks: TaskProps[] = [
         {
@@ -33,6 +36,27 @@ export const Home = () => {
 
     ]
     const { categories, loading } = useGetCategories()
+    const [name, setName] = useState<string>("")
+    const [category, setCategory] = useState<string>("c98b3ae0-bef6-43f1-8893-33856cc70b47")
+    const { create, loadingCreateTask } = useCreateTask()
+
+    const handleChangeName = (name: string) => {
+        setName(name)
+    }
+    const handleChangeCategory = (id: string) => {
+        setCategory(id)
+    }
+    const handleChangeSubmit = async () => {
+        const newTask: Partial<TaskEntity> = {
+            category: category,
+            name: name
+        }
+        await create(newTask)
+        if (!loadingCreateTask) {
+            setName("")
+        }
+    }
+
 
     if (loading == true) return null
     return (
@@ -57,18 +81,17 @@ export const Home = () => {
                     </div>
                 </div>
                 <div className="w-full border p-3 flex items-center rounded-2xl border-gray-200 bg-gray-100 mt-5 justify-between px-3 font-geist">
-                    <input type="text" placeholder="Escribe una nueva tarea..." className="outline-0 w-2/3 text-xl pl-3 placeholder:text-gray-500 text-black" />
+                    <input type="text" placeholder="Escribe una nueva tarea..." className="outline-0 w-2/3 text-xl pl-3 placeholder:text-gray-500 text-black" value={name} onChange={(e) => handleChangeName(e.target.value)} />
                     <div className="flex gap-3">
 
-                        <select name="" id="" className="border border-gray-200 bg-white cursor-pointer outline-0 rounded-xl p-3">
+                        <select name="" id="" className="border border-gray-200 bg-white cursor-pointer outline-0 rounded-xl p-3" onChange={(e) => handleChangeCategory(e.target.value)}>
                             {categories.map((category =>
-                                <option key={category.id} value="">{category.name}</option>
+                                <option key={category.id} value={category.id} >{category.name}</option>
                             ))}
                         </select>
-                        <button className="bg-black py-3 px-5 rounded-xl text-white cursor-pointer flex gap-2 items-center">
+                        <button className="bg-black py-3 px-5 rounded-xl text-white cursor-pointer flex gap-2 items-center" onClick={handleChangeSubmit}>
                             <span className="text-2xl">
                                 +
-
                             </span>
                             Agregar
                         </button>

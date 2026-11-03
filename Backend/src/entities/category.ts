@@ -1,11 +1,12 @@
 import { UUID } from "crypto"
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Task } from "./task"
 @Entity()
 export class Category {
     @PrimaryGeneratedColumn("uuid")
     id: string
-
     @Column()
     name: string
-
-}
+    @OneToMany(() => Task, (task) => task.category)
+    tasks: Task[]
+}   
