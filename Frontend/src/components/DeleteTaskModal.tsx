@@ -1,10 +1,21 @@
 import { Trash } from "lucide-react"
+import { useDeleteTask } from "../hooks/useDeleteTask"
 
 interface DeleteTaskModalProps {
     name: string,
+    id: string,
     cancelDelete: () => void,
+    te: () => void
 }
-export const DeleteTaskModal = ({ name, cancelDelete }: DeleteTaskModalProps) => {
+export const DeleteTaskModal = ({ name, cancelDelete, id, te }: DeleteTaskModalProps) => {
+    const { deleteTask } = useDeleteTask()
+
+    const handleDeleteTask = async () => {
+        await deleteTask(id)
+        cancelDelete()
+        te()
+    }
+
     return (
         <div className="">
             <div className=" backdrop-blur-xs  w-full h-full absolute bg-gray-500/60 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
@@ -34,7 +45,7 @@ export const DeleteTaskModal = ({ name, cancelDelete }: DeleteTaskModalProps) =>
                         <button className="border border-gray-400 p-2 w-fit  rounded-2xl cursor-pointer" onClick={cancelDelete}>
                             Cancelar
                         </button>
-                        <button className="flex items-center gap-2 rounded-2xl border p-2 px-5 w-fit justify-center bg-red-600 text-white cursor-pointer">
+                        <button className="flex items-center gap-2 rounded-2xl border p-2 px-5 w-fit justify-center bg-red-600 text-white cursor-pointer" onClick={handleDeleteTask}>
                             <Trash size={22} />
                             Eliminar
                         </button>

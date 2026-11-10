@@ -1,10 +1,18 @@
 import { Request, Response } from "express";
 import { db } from "../database/db";
 import { Task } from "../entities/task";
+import { UUID } from "crypto";
+
 export const GetAll = async (req: Request, res: Response) => {
 
+    const category = req.query.category as string | undefined
+    const isDone = req.query.isDone as unknown as boolean | undefined
     try {
         const tasksRaw = await db.find(Task, { relations: { category: true } })
+
+        const tasksFilter = await db.find(Task, { where: { category: { id: category, }, isDone: isDone }, relations: { category: true } })
+
+        console.log(tasksFilter);
 
         const tasks = tasksRaw.map((task) => {
             return {
@@ -14,7 +22,6 @@ export const GetAll = async (req: Request, res: Response) => {
                 category: task.category.name
             }
         })
-        console.log(tasks);
 
         res.json(tasks)
     } catch (e) {

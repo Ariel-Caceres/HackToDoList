@@ -3,17 +3,18 @@ import { useGetCategories } from "../hooks/useGetCategories"
 import { useState } from "react"
 import { useCreateTask } from "../hooks/useCreateTasks"
 import { useGetTasks } from "../hooks/useGetTasks"
+import { EmptyTask } from "../components/EmptyTask"
 export interface createTask {
     category: string,
     name: string
 }
 export const Home = () => {
-
     const { categories, loading } = useGetCategories()
     const [name, setName] = useState<string>("")
     const [category, setCategory] = useState<string>("5803fe15-f8fb-4740-beb2-882a539312f5")
     const { create, loadingCreateTask } = useCreateTask()
     const { loadingTasks, tasks, getAllTasks } = useGetTasks()
+
     const handleChangeName = (name: string) => {
         setName(name)
     }
@@ -21,6 +22,7 @@ export const Home = () => {
         setCategory(id)
     }
     const handleChangeSubmit = async () => {
+        if (name == "") return
         const newTask: createTask = {
             category: category,
             name: name
@@ -31,6 +33,7 @@ export const Home = () => {
         }
         getAllTasks()
     }
+
 
 
     if (loading == true) return null
@@ -57,10 +60,10 @@ export const Home = () => {
                     </div>
                 </div>
                 <div className="w-full border p-3 flex items-center rounded-2xl border-gray-200 bg-gray-100 mt-5 justify-between px-3 font-geist">
-                    <input type="text" placeholder="Escribe una nueva tarea..." className="outline-0 w-2/3 text-xl pl-3 placeholder:text-gray-500 text-black" value={name} onChange={(e) => handleChangeName(e.target.value)} />
+                    <input id="nameInput" type="text" required placeholder="Escribe una nueva tarea..." className="outline-0 w-2/3 text-xl pl-3 placeholder:text-gray-500 text-black" value={name} onChange={(e) => handleChangeName(e.target.value)} />
                     <div className="flex gap-3">
 
-                        <select name="" id="" className="border border-gray-200 bg-white cursor-pointer outline-0 rounded-xl p-3" onChange={(e) => handleChangeCategory(e.target.value)}>
+                        <select name="" id="categorySelect" className="border border-gray-200 bg-white cursor-pointer outline-0 rounded-xl p-3" onChange={(e) => handleChangeCategory(e.target.value)}>
                             {categories.map((category =>
                                 <option key={category.id} value={category.id} >{category.name}</option>
                             ))}
@@ -120,8 +123,11 @@ export const Home = () => {
                 <div className="w-full font-geist">
 
                     {tasks.map(task =>
-                        (<Task key={task.id} name={task.name} isDone={task.isDone} category={task.category} />)
+                        (<Task key={task.id} name={task.name} isDone={task.isDone} category={task.category} id={task.id} te={() => getAllTasks()} />)
                     )}
+                    {tasks.length == 0 &&
+                        <EmptyTask />
+                    }
 
                 </div>
 

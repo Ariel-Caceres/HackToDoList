@@ -3,12 +3,15 @@ import { CATEGORY_TYPES, type categoryTypes } from "../types/categoryTypes";
 import { useState } from "react";
 import { DeleteTaskModal } from "./DeleteTaskModal";
 import { EditTaskModal } from "./EditTaskModal";
+
 export interface TaskProps {
+    id: string,
     name: string;
     category: categoryTypes;
     isDone: boolean;
+    te: () => void;
 }
-export const Task = ({ name, category, isDone }: TaskProps) => {
+export const Task = ({ name, category, isDone, id, te }: TaskProps) => {
 
     const [checked, setChecked] = useState<boolean>(isDone)
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false)
@@ -49,7 +52,7 @@ export const Task = ({ name, category, isDone }: TaskProps) => {
 
             </div >
             {showModalDelete ?
-                <DeleteTaskModal name={name} cancelDelete={() => setShowModalDelete(false)} />
+                <DeleteTaskModal name={name} cancelDelete={() => setShowModalDelete(false)} id={id} te={te} />
                 : ""}
 
             {showModalEdit ? <EditTaskModal closeModal={() => setShowEditModal(false)} /> : ""}

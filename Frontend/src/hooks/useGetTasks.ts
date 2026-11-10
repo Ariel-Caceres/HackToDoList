@@ -4,6 +4,8 @@ import type { TaskEntity } from "../entities/task.entity"
 export const useGetTasks = () => {
     const [loadingTasks, setLoadingTasks] = useState<boolean>(false)
     const [tasks, setTasks] = useState<TaskEntity[]>([])
+
+
     const getAllTasks = async () => {
         try {
             setLoadingTasks(true)
