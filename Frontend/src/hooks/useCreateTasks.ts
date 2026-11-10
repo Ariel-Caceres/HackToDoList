@@ -1,11 +1,10 @@
 import { useState } from "react";
-import type { TaskEntity } from "../entities/task.entity";
-
+import type { createTask } from "../pages/Home";
 
 export const useCreateTask = () => {
     const [loadingCreateTask, setLoadingCreateTask] = useState<boolean>(false)
 
-    const create = async (newTask: Partial<TaskEntity>) => {
+    const create = async (newTask: createTask) => {
 
         try {
             setLoadingCreateTask(true)

@@ -1,45 +1,19 @@
 import { Task } from "../components/Task"
-import type { TaskProps } from "../components/Task"
-import { CATEGORY_TYPES } from "../types/categoryTypes"
 import { useGetCategories } from "../hooks/useGetCategories"
 import { useState } from "react"
-import type { TaskEntity } from "../entities/task.entity"
 import { useCreateTask } from "../hooks/useCreateTasks"
+import { useGetTasks } from "../hooks/useGetTasks"
+export interface createTask {
+    category: string,
+    name: string
+}
 export const Home = () => {
-    const tasks: TaskProps[] = [
-        {
-            name: "Comprar ingredientes para la cena",
-            category: CATEGORY_TYPES.FOOD,
-            isDone: false,
-        },
-        {
-            name: "Revisar capitulo 4 de algoritmos",
-            category: CATEGORY_TYPES.STUDY,
-            isDone: false,
-        },
-        {
-            name: "Enviar reporte mensual de métricas",
-            category: CATEGORY_TYPES.WORK,
-            isDone: false,
-        },
-        {
-            name: "Preparar almuerzo saludable",
-            category: CATEGORY_TYPES.FOOD,
-            isDone: true,
-        },
-        {
-            name: "Lectura 30 minutos de arquitectura",
-            category: CATEGORY_TYPES.STUDY,
-            isDone: true,
-        },
 
-
-    ]
     const { categories, loading } = useGetCategories()
     const [name, setName] = useState<string>("")
-    const [category, setCategory] = useState<string>("c98b3ae0-bef6-43f1-8893-33856cc70b47")
+    const [category, setCategory] = useState<string>("5803fe15-f8fb-4740-beb2-882a539312f5")
     const { create, loadingCreateTask } = useCreateTask()
-
+    const { loadingTasks, tasks, getAllTasks } = useGetTasks()
     const handleChangeName = (name: string) => {
         setName(name)
     }
@@ -47,7 +21,7 @@ export const Home = () => {
         setCategory(id)
     }
     const handleChangeSubmit = async () => {
-        const newTask: Partial<TaskEntity> = {
+        const newTask: createTask = {
             category: category,
             name: name
         }
@@ -55,10 +29,12 @@ export const Home = () => {
         if (!loadingCreateTask) {
             setName("")
         }
+        getAllTasks()
     }
 
 
     if (loading == true) return null
+    if (loadingTasks == true) return null
     return (
         <div className="w-full flex items-center  flex-col    bg-gray-100 h-full relative">
             <div className="w-5xl  flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white ">
@@ -144,7 +120,7 @@ export const Home = () => {
                 <div className="w-full font-geist">
 
                     {tasks.map(task =>
-                        (<Task key={task.name} name={task.name} isDone={task.isDone} category={task.category} />)
+                        (<Task key={task.id} name={task.name} isDone={task.isDone} category={task.category} />)
                     )}
 
                 </div>
