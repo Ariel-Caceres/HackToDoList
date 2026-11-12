@@ -12,7 +12,6 @@ export const GetAll = async (req: Request, res: Response) => {
 
         const tasksFilter = await db.find(Task, { where: { category: { id: category, }, isDone: isDone }, relations: { category: true } })
 
-        console.log(tasksFilter);
 
         const tasks = tasksRaw.map((task) => {
             return {
