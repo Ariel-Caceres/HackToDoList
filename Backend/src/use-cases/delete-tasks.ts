@@ -9,7 +9,6 @@ export const deleteTask = async (req: Request, res: Response) => {
         await db.delete(Task, task)
         res.json("Tarea eliminada con éxito")
     } catch (e) {
-        console.log("Error al eliminar la tarea", e);
         res.json("Error al eliminar la tarea")
     }
 }

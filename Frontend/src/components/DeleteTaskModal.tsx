@@ -5,15 +5,15 @@ interface DeleteTaskModalProps {
     name: string,
     id: string,
     cancelDelete: () => void,
-    te: () => void
+    refetch: () => void
 }
-export const DeleteTaskModal = ({ name, cancelDelete, id, te }: DeleteTaskModalProps) => {
+export const DeleteTaskModal = ({ name, cancelDelete, id, refetch }: DeleteTaskModalProps) => {
     const { deleteTask } = useDeleteTask()
 
     const handleDeleteTask = async () => {
         await deleteTask(id)
         cancelDelete()
-        te()
+        refetch()
     }
 
     return (

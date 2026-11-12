@@ -6,7 +6,7 @@ export const updateTask = async (req: Request, res: Response) => {
 
     const { name, category, isDone, id } = req.body
 
-    if (!name || !category || !isDone || !id) {
+    if (!name || !category || isDone == undefined || !id) {
         res.json("Datos insuficientes ")
         return
     }

@@ -52,10 +52,10 @@ export const Task = ({ name, category, isDone, id, te }: TaskProps) => {
 
             </div >
             {showModalDelete ?
-                <DeleteTaskModal name={name} cancelDelete={() => setShowModalDelete(false)} id={id} te={te} />
+                <DeleteTaskModal name={name} cancelDelete={() => setShowModalDelete(false)} id={id} refetch={te} />
                 : ""}
 
-            {showModalEdit ? <EditTaskModal closeModal={() => setShowEditModal(false)} /> : ""}
+            {showModalEdit ? <EditTaskModal closeModal={() => setShowEditModal(false)} id={id} refetch={te} /> : ""}
         </>
     )
 
