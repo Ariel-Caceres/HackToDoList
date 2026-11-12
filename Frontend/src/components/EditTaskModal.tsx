@@ -37,7 +37,6 @@ export const EditTaskModal = ({ closeModal, id, refetch }: EditTaskModalProps) =
     const handleChangeCategory = (categoryId: string) => {
         setTask((prev) => ({ ...prev, category: categoryId }))
     }
-    console.log(task.isDone);
 
 
     useEffect(() => {

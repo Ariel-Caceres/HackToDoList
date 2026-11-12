@@ -10,7 +10,6 @@ export const useGetTaskById = () => {
             setLoading(true)
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${id}`)
             const data = await res.json()
-            console.log(data, "esto es del juc");
 
             return data
         } catch (e) {
