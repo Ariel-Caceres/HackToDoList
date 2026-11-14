@@ -1,9 +1,9 @@
-import { Task } from "../components/Task"
 import { useGetCategories } from "../hooks/useGetCategories"
 import { useState } from "react"
 import { useCreateTask } from "../hooks/useCreateTasks"
+import { useSearchParams } from "react-router-dom"
+import { TaskTable } from "../components/TaskTable"
 import { useGetTasks } from "../hooks/useGetTasks"
-import { EmptyTask } from "../components/EmptyTask"
 export interface createTask {
     category: string,
     name: string
@@ -13,7 +13,12 @@ export const Home = () => {
     const [name, setName] = useState<string>("")
     const [category, setCategory] = useState<string>("5803fe15-f8fb-4740-beb2-882a539312f5")
     const { create, loadingCreateTask } = useCreateTask()
-    const { loadingTasks, tasks, getAllTasks } = useGetTasks()
+    const [params, setParams] = useSearchParams()
+
+    const query = new URLSearchParams({
+        category: params.get("category") || ""
+    }).toString()
+    const { getAllTasks, tasks, loadingTasks } = useGetTasks("?" + query)
 
     const handleChangeName = (name: string) => {
         setName(name)
@@ -29,15 +34,26 @@ export const Home = () => {
         }
         await create(newTask)
         if (!loadingCreateTask) {
+            getAllTasks()
             setName("")
         }
-        getAllTasks()
+
+    }
+
+    const handleChangeFilters = (id: string) => {
+        setParams((prev) => ({ ...prev, category: id }))
+    }
+
+    const handleDeleteCategoryFilters = () => {
+        setParams((prev) => {
+            const params = new URLSearchParams(prev);
+            params.delete("category")
+            return params
+        })
     }
 
 
-
     if (loading == true) return null
-    if (loadingTasks == true) return null
     return (
         <div className="w-full flex items-center  flex-col    bg-gray-100 min-h-screen relative">
             <div className="w-5xl  flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white ">
@@ -108,11 +124,11 @@ export const Home = () => {
                     </div>
                     <div className="w-2/5 flex justify-between font-semibold">
 
-                        <span className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
+                        <span className={`hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg ${params.get("category") == undefined ? "bg-gray-100" : ""}`} onClick={() => handleDeleteCategoryFilters()}>
                             Todos
                         </span>
                         {categories.map((c) => (
-                            <span key={c.id} className="hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg">
+                            <span key={c.id} className={`hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg ${params.get("category") == c.id ? "bg-gray-100" : ""}`} onClick={() => handleChangeFilters(c.id)}>
                                 {c.name}
                             </span>
 
@@ -121,14 +137,7 @@ export const Home = () => {
                 </div>
 
                 <div className="w-full font-geist">
-
-                    {tasks.map(task =>
-                        (<Task key={task.id} name={task.name} isDone={task.isDone} category={task.category} id={task.id} te={() => getAllTasks()} />)
-                    )}
-                    {tasks.length == 0 &&
-                        <EmptyTask />
-                    }
-
+                    <TaskTable tasks={tasks} loadingTasks={loadingTasks} getAllTasks={getAllTasks} />
                 </div>
 
                 <footer className="font-jet flex justify-between pt-10 text-gray-400">

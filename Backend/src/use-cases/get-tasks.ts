@@ -11,9 +11,10 @@ export const GetAll = async (req: Request, res: Response) => {
         const tasksRaw = await db.find(Task, { relations: { category: true } })
 
         const tasksFilter = await db.find(Task, { where: { category: { id: category, }, isDone: isDone }, relations: { category: true } })
+        console.log(category);
 
-
-        const tasks = tasksRaw.map((task) => {
+        const source = category ? tasksFilter : tasksRaw
+        const tasks = source.map((task) => {
             return {
                 id: task.id,
                 name: task.name,

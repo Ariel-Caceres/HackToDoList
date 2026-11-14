@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import type { TaskEntity } from "../entities/task.entity"
 
-export const useGetTasks = () => {
+export const useGetTasks = (data: string) => {
     const [loadingTasks, setLoadingTasks] = useState<boolean>(false)
     const [tasks, setTasks] = useState<TaskEntity[]>([])
 
@@ -9,7 +9,7 @@ export const useGetTasks = () => {
     const getAllTasks = async () => {
         try {
             setLoadingTasks(true)
-            const res = await fetch(`${import.meta.env.VITE_API_URL + "/api/tasks/"}`)
+            const res = await fetch(`${import.meta.env.VITE_API_URL + "/api/tasks/"}${data}`)
             const tasksDb = await res.json()
 
             setTasks(tasksDb)
@@ -24,7 +24,7 @@ export const useGetTasks = () => {
             getAllTasks()
         }
         getDataAsync()
-    }, [])
+    }, [data])
 
     return { tasks, loadingTasks, getAllTasks }
 }   
