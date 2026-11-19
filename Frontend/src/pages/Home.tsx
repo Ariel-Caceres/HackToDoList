@@ -16,8 +16,10 @@ export const Home = () => {
     const [params, setParams] = useSearchParams()
 
     const query = new URLSearchParams({
-        category: params.get("category") || ""
+        ...(params.get("category") && { category: params.get("category") as string }),
+        ...(params.get("isDone") && { isDone: params.get("isDone") as string }),
     }).toString()
+
     const { getAllTasks, tasks, loadingTasks } = useGetTasks("?" + query)
 
     const handleChangeName = (name: string) => {
@@ -41,7 +43,11 @@ export const Home = () => {
     }
 
     const handleChangeFilters = (id: string) => {
-        setParams((prev) => ({ ...prev, category: id }))
+        setParams((prev) => {
+            const params = new URLSearchParams(prev);
+            params.set("category", id)
+            return params
+        })
     }
 
     const handleDeleteCategoryFilters = () => {
@@ -51,6 +57,24 @@ export const Home = () => {
             return params
         })
     }
+
+    const handleDeleteIsDoneFilters = () => {
+        setParams((prev) => {
+            const params = new URLSearchParams(prev);
+            params.delete("isDone")
+            return params
+        })
+    }
+
+    const handleChangeIsDoneFilter = (value: string) => {
+        setParams((prev) => {
+            const params = new URLSearchParams(prev);
+            params.set("isDone", value)
+            return params
+        })
+    }
+
+
 
 
     if (loading == true) return null
@@ -95,7 +119,7 @@ export const Home = () => {
 
                 <div className="flex justify-between text-md mt-10 text-lg w-full items-center border-b border-gray-200 pb-10">
                     <div className="bg-gray-100  w-2/5 flex justify-between  rounded-lg ">
-                        <button className="flex gap-2 items-center text-gray-600 font-semibold hover:bg-white p-1 m-2  px-3 hover:text-black rounded-lg ">
+                        <button className={`flex gap-2 items-center text-gray-600 font-semibold hover:bg-white p-1 m-2  px-3 hover:text-black rounded-lg ${params.get("isDone") == null ? "bg-white text-black" : ""}`} onClick={() => handleDeleteIsDoneFilters()}>
                             <span>
                                 Todas
                             </span>
@@ -104,8 +128,8 @@ export const Home = () => {
                             </span>
                         </button>
 
-                        <button className="flex gap-2 items-center text-gray-600 font-semibold hover:bg-white p-1 m-2  px-3  hover:text-black rounded-lg">
-                            <span>
+                        <button className={`flex gap-2 items-center text-gray-600 font-semibold hover:bg-white p-1 m-2  px-3  hover:text-black rounded-lg ${params.get("isDone") == "false" ? "bg-white text-black" : ""}`} onClick={() => handleChangeIsDoneFilter("false")}>
+                            <span >
                                 Pendientes
                             </span>
                             <span className="text-gray-400">
@@ -113,7 +137,7 @@ export const Home = () => {
                             </span>
                         </button>
 
-                        <button className="flex gap-2 items-center text-gray-600 font-semibold hover:bg-white p-1 m-2  px-3  hover:text-black rounded-lg">
+                        <button className={`flex gap-2 items-center text-gray-600 font-semibold hover:bg-white p-1 m-2  px-3  hover:text-black rounded-lg ${params.get("isDone") == "true" ? "bg-white text-black" : ""}`} onClick={() => handleChangeIsDoneFilter("true")}>
                             <span>
                                 Hechas
                             </span>

@@ -42,7 +42,6 @@ export const EditTaskModal = ({ closeModal, id, refetch }: EditTaskModalProps) =
     useEffect(() => {
         const fetch = async () => {
             const res = await getTaskById(id)
-            console.log(res);
             setTask(res)
         }
         fetch()

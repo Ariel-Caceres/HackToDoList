@@ -6,15 +6,19 @@ import { UUID } from "crypto";
 export const GetAll = async (req: Request, res: Response) => {
 
     const category = req.query.category as string | undefined
-    const isDone = req.query.isDone as unknown as boolean | undefined
+    const isDone = req.query.isDone as string | undefined
+
     try {
-        const tasksRaw = await db.find(Task, { relations: { category: true } })
 
-        const tasksFilter = await db.find(Task, { where: { category: { id: category, }, isDone: isDone }, relations: { category: true } })
-        console.log(category);
+        const where = {
+            ...(category && { category: { id: category } }),
+            ...(isDone && { isDone: isDone == "true" ? true : false })
+        }
 
-        const source = category ? tasksFilter : tasksRaw
-        const tasks = source.map((task) => {
+
+        const tasksFilter = await db.find(Task, { where: where, relations: { category: true } })
+
+        const tasks = tasksFilter.map((task) => {
             return {
                 id: task.id,
                 name: task.name,

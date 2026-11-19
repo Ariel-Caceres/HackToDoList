@@ -10,6 +10,8 @@ export const updateTask = async (req: Request, res: Response) => {
         res.json("Datos insuficientes ")
         return
     }
+    console.log(isDone);
+
     try {
         const task = await db.findOne(Task, { where: { id: id } })
         if (!task) {
