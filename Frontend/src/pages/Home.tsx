@@ -77,8 +77,8 @@ export const Home = () => {
 
     if (loading == true) return null
     return (
-        <div className="w-full flex items-center  flex-col    bg-gray-100 min-h-screen relative">
-            <div className="w-5xl  flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white ">
+        <div className="w-full flex items-center  flex-col   bg-gray-100 min-h-screen relative ">
+            <div className="lg:w-5xl md:w-full w-full flex justify-center flex-col mt-10 p-10 border rounded-2xl border-gray-200 bg-white">
                 <div className=" w-full flex items-center justify-between mb-5 border-b p-5 border-gray-200  font-geist font-bold">
                     <div className="w-2/3 flex gap-5 items-center">
                         <div className="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-sm">
@@ -106,7 +106,7 @@ export const Home = () => {
                                 <option key={category.id} value={category.id} >{category.name}</option>
                             ))}
                         </select>
-                        <button className="bg-black py-3 px-5 rounded-xl text-white cursor-pointer flex gap-2 items-center" onClick={handleChangeSubmit}>
+                        <button className="bg-black  py-3 px-5 rounded-xl text-white cursor-pointer flex gap-2 items-center" onClick={handleChangeSubmit}>
                             <span className="text-2xl">
                                 +
                             </span>
@@ -115,8 +115,8 @@ export const Home = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-between text-md mt-10 text-lg w-full items-center border-b border-gray-200 pb-10">
-                    <div className="bg-gray-100  w-2/5 flex justify-between  rounded-lg ">
+                <div className="flex-wrap gap-5 flex justify-between text-md mt-10 text-lg w-full items-center border-b border-gray-200 pb-10">
+                    <div className="bg-gray-100  min-w-2/5 flex justify-between  rounded-lg ">
                         <button className={`flex gap-2 items-center text-gray-600 font-semibold hover:bg-white p-1 m-2  px-3 hover:text-black rounded-lg ${params.get("isDone") == null ? "bg-white text-black" : ""}`} onClick={() => handleDeleteIsDoneFilters()}>
                             <span>
                                 Todas
@@ -144,7 +144,7 @@ export const Home = () => {
                             </span>
                         </button>
                     </div>
-                    <div className="w-2/5 flex justify-between font-semibold">
+                    <div className="min-w-2/5 flex justify-between font-semibold">
 
                         <span className={`hover:text-black text-gray-500 cursor-pointer hover:bg-gray-100 p-1 px-3 rounded-lg ${params.get("category") == undefined ? "bg-gray-100" : ""}`} onClick={() => handleDeleteCategoryFilters()}>
                             Todos
