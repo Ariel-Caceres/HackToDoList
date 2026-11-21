@@ -1,18 +1,30 @@
 import { useEffect, useState } from "react"
 import type { TaskEntity } from "../entities/task.entity"
 
-export const useGetTasks = (data: string) => {
+
+interface RequestTasks {
+    tasks: TaskEntity[]
+    dones: number,
+    pending: number,
+    total: number
+}
+export const useGetTasks = (filters: string) => {
     const [loadingTasks, setLoadingTasks] = useState<boolean>(false)
-    const [tasks, setTasks] = useState<TaskEntity[]>([])
+    const [data, setData] = useState<RequestTasks>({
+        tasks: [],
+        dones: 0,
+        pending: 0,
+        total: 0
+    })
 
 
     const getAllTasks = async () => {
         try {
             setLoadingTasks(true)
-            const res = await fetch(`${import.meta.env.VITE_API_URL + "/api/tasks/"}${data}`)
+            const res = await fetch(`${import.meta.env.VITE_API_URL + "/api/tasks/"}${filters}`)
             const tasksDb = await res.json()
 
-            setTasks(tasksDb)
+            setData(tasksDb)
         } catch (e) {
             console.log(e);
         } finally {
@@ -21,10 +33,10 @@ export const useGetTasks = (data: string) => {
     }
     useEffect(() => {
         const getDataAsync = async () => {
-            getAllTasks()
+            await getAllTasks()
         }
         getDataAsync()
-    }, [data])
+    }, [filters])
 
-    return { tasks, loadingTasks, getAllTasks }
+    return { data, loadingTasks, getAllTasks }
 }   

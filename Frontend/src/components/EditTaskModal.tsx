@@ -6,7 +6,7 @@ import { useGetCategories } from "../hooks/useGetCategories"
 interface EditTaskModalProps {
     closeModal: () => void,
     id: string
-    refetch: () => void
+    refetch: () => Promise<void>
 }
 
 export interface EditTaskEntity {
@@ -49,7 +49,8 @@ export const EditTaskModal = ({ closeModal, id, refetch }: EditTaskModalProps) =
 
     const handleSubmit = async () => {
         await update(task)
-        refetch()
+        closeModal()
+        await refetch()
     }
 
     if (loading) return
@@ -89,7 +90,7 @@ export const EditTaskModal = ({ closeModal, id, refetch }: EditTaskModalProps) =
                 </div>
                 <div className="w-full flex justify-end gap-3 pt-10 ">
                     <button className="border border-gray-200 p-2 rounded-xl cursor-pointer px-4" onClick={closeModal}>Cancelar</button>
-                    <button className="rounded-xl bg-black p-1 px-4 cursor-pointer text-white" onClick={() => handleSubmit()}>Guardar Cambios</button>
+                    <button className="rounded-xl bg-black p-1 px-4 cursor-pointer text-white" onClick={handleSubmit}>Guardar Cambios</button>
                 </div>
             </div>
         </div>

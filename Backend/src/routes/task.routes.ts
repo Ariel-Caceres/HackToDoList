@@ -5,6 +5,7 @@ import { GetAll } from "../use-cases/get-tasks";
 import { deleteTask } from "../use-cases/delete-tasks";
 import { updateTask } from "../use-cases/update-task";
 import { getTaskById } from "../use-cases/get-task-by-id";
+import { updateIsDone } from "../use-cases/update-is-done";
 
 export const TaskRoutes = Router()
 
@@ -13,3 +14,4 @@ TaskRoutes.get("/", GetAll)
 TaskRoutes.delete("/:id", deleteTask)
 TaskRoutes.put("/:id", updateTask)
 TaskRoutes.get("/:id", getTaskById)
+TaskRoutes.put("/update/is-done", updateIsDone)

@@ -10,7 +10,6 @@ export const useDeleteTask = () => {
 
         } catch (e) {
             console.log(e);
-
         }
     }
 

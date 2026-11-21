@@ -11,17 +11,15 @@ export interface createTask {
 export const Home = () => {
     const { categories, loading } = useGetCategories()
     const [name, setName] = useState<string>("")
-    const [category, setCategory] = useState<string>("5803fe15-f8fb-4740-beb2-882a539312f5")
+    const [category, setCategory] = useState<string>("6c728111-ec47-4d3e-9df7-290acb276617")
     const { create, loadingCreateTask } = useCreateTask()
     const [params, setParams] = useSearchParams()
-
     const query = new URLSearchParams({
         ...(params.get("category") && { category: params.get("category") as string }),
         ...(params.get("isDone") && { isDone: params.get("isDone") as string }),
     }).toString()
 
-    const { getAllTasks, tasks, loadingTasks } = useGetTasks("?" + query)
-
+    const { getAllTasks, data, loadingTasks } = useGetTasks("?" + query)
     const handleChangeName = (name: string) => {
         setName(name)
     }
@@ -96,7 +94,7 @@ export const Home = () => {
                         </div>
                     </div>
                     <div className="1/3 border rounded-2xl text-[14px] text-gray-500 px-3 py-1 bg-gray-100 border-gray-200 ">
-                        <span> 3 pendientes </span>
+                        <span> {data.pending} Pendientes</span>
                     </div>
                 </div>
                 <div className="w-full border p-3 flex items-center rounded-2xl border-gray-200 bg-gray-100 mt-5 justify-between px-3 font-geist">
@@ -124,7 +122,7 @@ export const Home = () => {
                                 Todas
                             </span>
                             <span className="text-gray-400">
-                                5
+                                {data.total}
                             </span>
                         </button>
 
@@ -133,7 +131,7 @@ export const Home = () => {
                                 Pendientes
                             </span>
                             <span className="text-gray-400">
-                                3
+                                {data.pending}
                             </span>
                         </button>
 
@@ -142,7 +140,7 @@ export const Home = () => {
                                 Hechas
                             </span>
                             <span className="text-gray-400">
-                                2
+                                {data.dones}
                             </span>
                         </button>
                     </div>
@@ -161,7 +159,7 @@ export const Home = () => {
                 </div>
 
                 <div className="w-full font-geist">
-                    <TaskTable tasks={tasks} loadingTasks={loadingTasks} getAllTasks={getAllTasks} />
+                    <TaskTable tasks={data.tasks} loadingTasks={loadingTasks} refetch={getAllTasks} />
                 </div>
 
                 <footer className="font-jet flex justify-between pt-10 text-gray-400">

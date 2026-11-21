@@ -5,9 +5,9 @@ import { Task } from "./Task"
 interface TaskTableInterface {
     loadingTasks: boolean,
     tasks: TaskEntity[]
-    getAllTasks: () => void
+    refetch: () => Promise<void>
 }
-export const TaskTable = ({ tasks, getAllTasks, loadingTasks }: TaskTableInterface) => {
+export const TaskTable = ({ tasks, refetch, loadingTasks }: TaskTableInterface) => {
 
 
     return (
@@ -18,7 +18,7 @@ export const TaskTable = ({ tasks, getAllTasks, loadingTasks }: TaskTableInterfa
                 </div>
             }
             {tasks.map(task =>
-                (<Task key={task.id} name={task.name} isDone={task.isDone} category={task.category} id={task.id} te={() => getAllTasks()} />)
+                (<Task key={task.id} name={task.name} isDone={task.isDone} category={task.category} id={task.id} refetch={refetch} />)
             )}
             {tasks.length == 0 &&
                 <EmptyTask />
