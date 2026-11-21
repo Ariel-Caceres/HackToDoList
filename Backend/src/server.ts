@@ -9,7 +9,7 @@ app.use(express.json());
 
 
 app.use(cors({
-    origin: ["http://localhost:5173", "https://hack-to-do-list-eight.vercel.app/"],
+    origin: ["http://localhost:5173", "https://hack-to-do-list-eight.vercel.app"],
     methods: ["GET", "PUT", "DELETE", "POST"],
     allowedHeaders: ["Content-Type"],
     credentials: false,
