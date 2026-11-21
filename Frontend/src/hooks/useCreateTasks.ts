@@ -8,7 +8,7 @@ export const useCreateTask = () => {
 
         try {
             setLoadingCreateTask(true)
-            const res = await fetch("http://localhost:4000/api/tasks/create", {
+            const res = await fetch(import.meta.env.VITE_API_URL + "/api/tasks/create", {
                 method: "POST",
                 headers: { "Content-Type": "Application/json" },
                 body: JSON.stringify(newTask)
